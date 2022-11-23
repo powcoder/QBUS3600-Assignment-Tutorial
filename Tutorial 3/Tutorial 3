@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug 13 17:46:11 2018
+
+@author: Macbook
+"""
+
+import pandas as pd
+data=pd.read_excel('DirectMarketing.xlsx')
+print(data.head())
+correlation = data.corr()
+correlation.loc['AmountSpent']
+print(correlation.iloc[3])
+import matplotlib.pyplot as plt
+y = data['AmountSpent']
+x = data['Salary']
+fig = plt.figure()
+plt.scatter(x,y,alpha=0.25)
+import statsmodels.formula.api as smf
+model = smf.ols(formula="AmountSpent ~ Salary + Children+ Gender + Catalogs", data=data) 
+reg = model.fit()
+print(reg.summary())
+new={'Salary':50000,'Children':0, 'Gender':'Female','Catalogs':6}
+print(reg.predict([new]))
